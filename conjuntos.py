@@ -5,7 +5,7 @@ from itertools import product
 
 # Esta función es clave para pedir números al usuario de forma segura.
 # mensaje , es lo que le mostramos al usuario
-#Single_input nos dice si esparmos 1 numero solo o varios separados por comas.
+# Single_input nos dice si esparmos 1 numero solo o varios separados por comas.
 def solicitar_numeros(mensaje, single_input=False):
     while True: # Entramos en un bucle infinito hasta que la entrada sea válida.
         entrada = input(mensaje) # Pedimos al usuario que ingrese el número o números.
@@ -84,6 +84,30 @@ def evaluar_condiciones(conjuntos):
         print("¡Atención! Algunos DNIs tienen una alta diversidad numérica (más de 6 dígitos únicos).")
     else:
         print("Ningún DNI presenta una diversidad numérica excepcionalmente alta (menos de 7 dígitos únicos por DNI).")
+
+# ---FUNCIÓN: Evaluación de Dígito Representativo (Expresión 1) ---
+def evaluar_dígito_representativo(conjuntos):
+    print("\n--- Evaluación: 'Dígito Representativo del Grupo' (Expresión 1) ---")
+    if not conjuntos:
+        print("No hay conjuntos de DNI para evaluar esta expresión.")
+        return
+
+    interseccion_total = set.intersection(*conjuntos)
+    longitud_interseccion = len(interseccion_total)
+    
+    print(f"La intersección de todos los conjuntos es: {interseccion_total}")
+    print(f"La cantidad de elementos en la intersección es: {longitud_interseccion}")
+    
+    # La condición lógica de la expresión: ¿Tiene exactamente un elemento?
+    existe_digito_representativo = (longitud_interseccion == 1)
+    
+    print(f"La condición ({longitud_interseccion} == 1) es: {existe_digito_representativo}")
+    if existe_digito_representativo:
+        print(f"Resultado de la expresión: Verdadero. Se considera que existe un dígito representativo del grupo: {interseccion_total.pop()}.")
+        # Usamos .pop() para extraer el único elemento si existe.
+    else:
+        print("Resultado de la expresión: Falso. No se cumple la condición porque la intersección total no tiene exactamente un elemento.")
+
 
 # --- Análisis de Años de Nacimiento ---
 
@@ -180,6 +204,9 @@ def main():
 
     # Evaluamos condiciones especiales sobre los dígitos de los DNIs.
     evaluar_condiciones(conjuntos_dni)
+
+    # --- LLAMADA A LA NUEVA FUNCIÓN PARA EVALUAR LA EXPRESIÓN 1 ---
+    evaluar_dígito_representativo(conjuntos_dni)
 
     # --- Procesamiento y Resultados de Años de Nacimiento ---
     print("\n--- Resultados del Análisis de Años de Nacimiento ---")
